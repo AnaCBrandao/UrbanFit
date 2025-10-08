@@ -2,13 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { EventsRoutingModule } from './events-routing.module';
-
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
-    EventsRoutingModule
+    EventsRoutingModule,
+    MatGridListModule,
   ]
 })
 export class EventsModule { }
