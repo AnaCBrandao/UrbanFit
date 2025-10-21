@@ -1,17 +1,9 @@
+@use '../src/styles/theme' as theme;
 @use '@angular/material' as mat;
-@include mat.core();
 
-$custom-app-primary: mat.define-palette(mat.$indigo-palette, A700);
-$custom-app-secondary: mat.define-palette(mat.$light-green-palette, A200);
-$custom-app-surface: #fffbe6;
+body {
+  background: theme.$custom-app-surface;
+}
 
-$custom-theme: mat.define-light-theme((
-  color: (
-    primary: $custom-app-primary,
-    accent: $custom-app-secondary,
-    surface: $custom-app-surface,
-  )
- ));
 
-@include mat.all-component-themes($custom-theme);
-@include mat.core-theme($custom-theme);
+

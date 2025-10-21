@@ -1,14 +1,21 @@
-<mat-grid-list cols="2" rowHeight="2:1">
-  <mat-card class="example-card" appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>Chihuahua</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur nostrum corrupti, dolorem inventore facere sapiente, quis molestias suscipit explicabo reprehenderit vero ipsam sunt recusandae odio optio iste nemo eligendi dolore?</p>
-    </mat-card-content>
-    <mat-card-footer class="example-card-footer">
-    </mat-card-footer>
-  </mat-card>
+<div class="container">
+  <h1>EVENTOS PERTO DE VOCÊ</h1>
+  <mat-grid-list cols="2" rowHeight="2:1" *ngFor="let event of events">
+    <mat-card class="card" appearance="outlined">
+      <mat-card-header>
+        <mat-card-title class="title">{{event.name}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Data:</strong> {{event.date | date}}</p>
+        <p><strong>Horário:</strong> {{event.time}}</p>
+        <p><strong>Local:</strong> {{event.local}}</p>
+      </mat-card-content>
+      <mat-card-footer class="card-footer">
+        <button color="primary">Inscrever-se</button>
+      </mat-card-footer>
+    </mat-card>
 
-</mat-grid-list>
+  </mat-grid-list>
+</div>
+
 

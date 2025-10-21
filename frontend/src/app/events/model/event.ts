@@ -1,9 +1,9 @@
 export interface Event {
-  id_evento: number;
+  id_event: number;
   name: string;
-  descricao: string;
+  description: string;
   local: string;
-  data: Date;
-  horario: string;
-  id_organizador: number;
+  date: Date;
+  time: string;
+  id_creator: number;
 }

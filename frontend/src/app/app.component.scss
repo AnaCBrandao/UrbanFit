@@ -1,0 +1,13 @@
+@use '../styles/theme' as theme;
+@use '@angular/material' as mat;
+
+.header {
+  background-color: theme.$custom-app-surface;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+span {
+  color: mat.get-color-from-palette(theme.$custom-app-primary, 'default');
+  margin-left: 8px;
+}
