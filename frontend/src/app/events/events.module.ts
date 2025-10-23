@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { EventsRoutingModule } from './events-routing.module';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { AppMaterialModule } from '../shared/app-material/app-material.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +10,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
   imports: [
     CommonModule,
     EventsRoutingModule,
-    MatGridListModule,
+    AppMaterialModule,
   ]
 })
 export class EventsModule { }

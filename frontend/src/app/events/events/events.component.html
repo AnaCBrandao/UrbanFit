@@ -1,7 +1,7 @@
 <div class="container">
   <h1>EVENTOS PERTO DE VOCÊ</h1>
-  <mat-grid-list cols="2" rowHeight="2:1" *ngFor="let event of events">
-    <mat-card class="card" appearance="outlined">
+  <mat-grid-list cols="2" rowHeight="2:1" >
+    <mat-card class="card" appearance="outlined" *ngFor="let event of events">
       <mat-card-header>
         <mat-card-title class="title">{{event.name}}</mat-card-title>
       </mat-card-header>

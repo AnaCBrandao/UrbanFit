@@ -1,37 +1,30 @@
+import { EventsService } from './../services/events.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
 import { Event } from '../model/event';
+import { AppMaterialModule } from '../../shared/app-material/app-material.module';
+
 
 @Component({
   selector: 'app-events',
   standalone: true,
   imports: [
-    MatGridListModule,
-    MatCardModule,
-    CommonModule
+    AppMaterialModule,
+    CommonModule,
+    HttpClientModule
   ],
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss'
 })
 export class EventsComponent implements OnInit {
 
-  events: Event[] = [
-    {
-      id_event: 1,
-      name: 'Evento de Teste',
-      description: 'Descrição do evento de teste',
-      local: 'Local do evento de teste',
-      date: new Date('2024-07-01'),
-      time: '18:00',
-      id_creator: 1
-    }
-  ]
+  events: Event[] = [];
 
-  constructor(){
+  constructor(private eventsService: EventsService) {
 
+    this.eventsService.listEvents().subscribe(events => this.events = events);
   }
 
   ngOnInit(): void {

@@ -3,7 +3,7 @@ export interface Event {
   name: string;
   description: string;
   local: string;
-  date: Date;
+  date: string;
   time: string;
   id_creator: number;
 }
