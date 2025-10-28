@@ -17,6 +17,7 @@ export class EventsService {
     return this.httpClient.get<Event[]>(this.API)
     .pipe(
       first(),
+      delay(2000),
       tap(events => console.log(events))
     )
   }
