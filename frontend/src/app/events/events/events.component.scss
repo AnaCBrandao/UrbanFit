@@ -1,12 +1,31 @@
 @use '@angular/material' as mat;
 @use '../../../styles/theme' as theme;
 
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  padding: 16px;
+}
+
 .card {
-  max-width: 400px;
+  width: 300px;
+
+}
+
+.clickable-card {
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.clickable-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .card button {
   margin: 16px;
+
 }
 
 .card .title {
@@ -15,29 +34,26 @@
   color: mat.get-color-from-palette(theme.$custom-app-primary, 'default');
 }
 
-.footer {
+.card-footer {
   align-items: center;
-  padding: 16px;
+  padding: 5px;
 }
 
 .container {
   margin: 16px;
-  display: flex;
-  flex-wrap: wrap;
 }
 
 h1 {
-  font-size: 60px;
+  font-size: 55px;
   font-weight: bold;
   margin: 40px 0;
   width: 100%;
   text-align: center;
 }
 
-mat-grid-list {
-  width: 100%;
-  gap: 24px;
-  flex-wrap: wrap;
-  flex-direction: row;
-  display: flex;
+mat-card-content, .title {
+  margin-left: 5px;
 }
+
+
+

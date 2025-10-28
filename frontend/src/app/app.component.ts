@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { AppMaterialModule } from '../app/shared/app-material/app-material.module';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
   standalone: true,
   imports: [
     RouterOutlet,
-    MatToolbarModule,
+    AppMaterialModule,
     HttpClientModule,
   ],
   templateUrl: './app.component.html',

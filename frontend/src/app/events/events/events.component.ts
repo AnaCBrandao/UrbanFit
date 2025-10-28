@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { Event } from '../model/event';
 import { AppMaterialModule } from '../../shared/app-material/app-material.module';
-
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-events',
@@ -13,7 +13,8 @@ import { AppMaterialModule } from '../../shared/app-material/app-material.module
   imports: [
     AppMaterialModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule
   ],
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss'
