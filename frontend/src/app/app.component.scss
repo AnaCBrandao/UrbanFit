@@ -22,3 +22,10 @@ mat-icon {
 .nav-icons {
   margin-left: 16px;
 }
+<<<<<<< HEAD
+=======
+
+.active {
+  color: mat.get-color-from-palette(theme.$custom-app-primary, 'default');
+}
+>>>>>>> e5c44fd (event-form component)

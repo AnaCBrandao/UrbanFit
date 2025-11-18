@@ -5,7 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { Event } from '../model/event';
 import { AppMaterialModule } from '../../shared/app-material/app-material.module';
+<<<<<<< HEAD
 import { RouterModule } from '@angular/router';
+=======
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+>>>>>>> e5c44fd (event-form component)
 import { catchError, of } from 'rxjs';
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,7 +26,13 @@ export class EventsComponent implements OnInit {
 
   constructor(
     private eventsService: EventsService,
+<<<<<<< HEAD
     public dialog: MatDialog
+=======
+    public dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
+>>>>>>> e5c44fd (event-form component)
   ) {
     this.eventsService
       .listEvents()
@@ -42,4 +52,11 @@ export class EventsComponent implements OnInit {
       data: errorMsg,
     });
   }
+<<<<<<< HEAD
+=======
+
+  onAdd() {
+    this.router.navigate(['new'], {relativeTo: this.route})
+  }
+>>>>>>> e5c44fd (event-form component)
 }

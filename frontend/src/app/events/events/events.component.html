@@ -1,5 +1,13 @@
 <div class="container">
+<<<<<<< HEAD
   <h1>EVENTOS PERTO DE VOCÊ</h1>
+=======
+  <div class="banner">
+    <h1>EVENTOS PERTO DE VOCÊ</h1>
+    <button mat-flat-button color="accent" (click)="onAdd()">Criar um Evento</button>
+  </div>
+
+>>>>>>> e5c44fd (event-form component)
   <div class="card-list">
     @if (events.length > 0){
       <mat-card
@@ -13,7 +21,11 @@
           <mat-card-title class="title">{{event.name}}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
+<<<<<<< HEAD
           <p><strong>Data:</strong> {{event.date | date}}</p>
+=======
+          <p><strong>Data:</strong> {{event.date}}</p>
+>>>>>>> e5c44fd (event-form component)
           <p><strong>Horário:</strong> {{event.time}}</p>
           <p><mat-icon aria-hidden="false" fontIcon="location_on"></mat-icon><strong> Local:</strong> {{event.local}}</p>
         </mat-card-content>
