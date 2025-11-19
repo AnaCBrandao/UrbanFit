@@ -3,20 +3,14 @@ import { provideRouter } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { routes } from './app/app.routes';
-<<<<<<< HEAD
-=======
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { importProvidersFrom } from '@angular/core';
->>>>>>> e5c44fd (event-form component)
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
     provideHttpClient(withFetch()),
-<<<<<<< HEAD
-=======
     importProvidersFrom(BrowserAnimationsModule)
->>>>>>> e5c44fd (event-form component)
 ]
 })
   .catch(err => console.error(err));

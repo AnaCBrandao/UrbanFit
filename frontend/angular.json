@@ -107,11 +107,8 @@
         }
       }
     }
-<<<<<<< HEAD
-=======
   },
   "cli": {
     "analytics": false
->>>>>>> e5c44fd (event-form component)
   }
 }

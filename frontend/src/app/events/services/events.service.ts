@@ -9,11 +9,7 @@ import { delay, first, map, tap } from 'rxjs/operators';
 })
 export class EventsService {
 
-<<<<<<< HEAD
-  private readonly API = '/assets/events.json';
-=======
   private readonly API = 'api/events';
->>>>>>> e5c44fd (event-form component)
 
   constructor(private httpClient: HttpClient) { }
 
