@@ -20,14 +20,14 @@
           <input matInput formControlName="local">
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="fill">
           <mat-label>Data</mat-label>
-          <input matInput [matDatepicker]="picker" placeholder="Selecione uma data" formControlName="date">
+          <input matInput [matDatepicker]="picker" placeholder="DD/MM/YYYY" formControlName="date">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field >
           <mat-label>Horário</mat-label>
           <input matInput type="time" placeholder="Selecione um horário" formControlName="time">
         </mat-form-field>
@@ -35,7 +35,7 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-flat-button color="accent" (click)="onSubmit()">Salvar</button>
-      <button mat-flat-button color="primary" (click)="onClear()">Limpar</button>
+      <button mat-flat-button color="primary" (click)="onCancel()">Voltar</button>
     </mat-card-actions>
   </mat-card>
 </div>

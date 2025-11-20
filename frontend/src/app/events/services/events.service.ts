@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { Event } from '../model/event';
 import { delay, first, map, tap } from 'rxjs/operators';
 
+import moment from 'moment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,5 +22,14 @@ export class EventsService {
       delay(2000),
       tap(events => console.log(events))
     )
+  }
+
+save(record: Event) {
+
+    if (record.date) {
+      record.date = moment(record.date).format('DD/MM/YYYY');
+    }
+
+    return this.httpClient.post<Event>(this.API, record).pipe(first())
   }
 }

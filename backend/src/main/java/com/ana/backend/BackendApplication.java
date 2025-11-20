@@ -19,7 +19,7 @@ public class BackendApplication {
 	CommandLineRunner initDatabase(EventRepository eventRepository) {
 		return args -> {
 			eventRepository.deleteAll();
-			eventRepository.save(new Event("Yoga Class", "A relaxing yoga session", "Rua 2", "20-2-2024", "10:00 AM"));
+			eventRepository.save(new Event("Yoga Class", "A relaxing yoga session", "Rua 2", "20/2/2024", "10:00 AM"));
 		};
 	}
 }
