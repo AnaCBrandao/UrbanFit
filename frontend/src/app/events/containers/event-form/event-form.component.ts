@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
-import { AppMaterialModule } from '../../shared/app-material/app-material.module';
+import { AppMaterialModule } from '../../../shared/app-material/app-material.module';
 import { CdkDialogContainer } from "@angular/cdk/dialog";
-import { EventsService } from '../services/events.service';
+import { EventsService } from '../../services/events.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '../../../shared/shared.module';
 import { Location } from '@angular/common';
 
 @Component({
@@ -18,21 +18,20 @@ import { Location } from '@angular/common';
 })
 export class EventFormComponent {
 
-  form: FormGroup
+  form = this.formBuilder.group({
+      name: [''],
+      description: [''],
+      local: [''],
+      date: [''],
+      time: [''],
+    });
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: NonNullableFormBuilder,
     private service: EventsService,
     private snackBar: MatSnackBar,
     private location: Location
-  ){
-    this.form = this.formBuilder.group({
-      name: [null],
-      description: [null],
-      local: [null],
-      date: [null],
-      time: [null],
-    });
-  }
+  ){};
+
 
   onSubmit() {
     this.service.save(this.form.value).subscribe(data => this.onSuccess(), error => this.onError())

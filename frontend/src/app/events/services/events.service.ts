@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { Event } from '../model/event';
 import { delay, first, map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import moment from 'moment';
 
@@ -24,7 +25,7 @@ export class EventsService {
     )
   }
 
-save(record: Event) {
+  save(record: Partial<Event>) {
 
     if (record.date) {
       record.date = moment(record.date).format('DD/MM/YYYY');
@@ -32,4 +33,10 @@ save(record: Event) {
 
     return this.httpClient.post<Event>(this.API, record).pipe(first())
   }
+
+
+  getEventById(id: number): Observable<Event> {
+      return this.httpClient.get<Event>(`${this.API}/${id}`);
+    }
+
 }

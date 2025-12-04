@@ -1,13 +1,13 @@
-import { EventsService } from './../services/events.service';
+import { Event } from './../../model/event';
+import { EventsService } from './../../services/events.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { Event } from '../model/event';
-import { AppMaterialModule } from '../../shared/app-material/app-material.module';
+import { AppMaterialModule } from '../../../shared/app-material/app-material.module';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, of } from 'rxjs';
-import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -47,5 +47,10 @@ export class EventsComponent implements OnInit {
 
   onAdd() {
     this.router.navigate(['new'], {relativeTo: this.route})
+  }
+
+  onSubscribe(event: Event) {
+    console.log(event)
+    this.router.navigate(['eventInfo', event.id], {relativeTo: this.route})
   }
 }
