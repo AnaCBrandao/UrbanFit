@@ -34,6 +34,12 @@ export class AppComponent {
     document.querySelector('.home-icon')?.classList.remove('active');
   }
 
+  goProfile() {
+    this.router.navigate(['/profile']);
+    document.querySelector('.home-icon')?.classList.remove('active');
+    document.querySelector('.map-icon')?.classList.remove('active');
+  }
+
   search() {}
 
 
