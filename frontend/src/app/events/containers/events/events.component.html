@@ -11,8 +11,8 @@
         appearance="outlined"
         *ngFor="let event of events"
         [title]="'Clique para ver detalhes de ' + event.name"
-        [routerLink]="['/']"
-      ><!-- [routerLink]="['/event', event.id]" --->
+        [routerLink]="['eventInfo', event.id]"
+      >
         <mat-card-header>
           <mat-card-title class="title">{{event.name}}</mat-card-title>
         </mat-card-header>

@@ -36,7 +36,11 @@ export class EventsService {
 
 
   getEventById(id: number): Observable<Event> {
-      return this.httpClient.get<Event>(`${this.API}/${id}`);
-    }
+    return this.httpClient.get<Event>(`${this.API}/${id}`);
+  }
 
+  delete(id: number) {
+    return this.httpClient.delete(`${this.API}/${id}`).pipe(first())
+  }
 }
+

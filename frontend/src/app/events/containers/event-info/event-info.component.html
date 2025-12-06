@@ -2,40 +2,37 @@
 <div class="container">
 
   <mat-card class="card" appearance="outlined">
-    <mat-card-header>
-
-      <mat-card-title>
-        <ng-container *ngIf="event$ | async as event; else loading">
-          <ng-container *ngIf="event; else notFound">
+    <ng-container *ngIf="event$ | async as event; else loading">
+      <ng-container *ngIf="event; else notFound">
+       <mat-card-header>
+        <mat-card-title>
             {{ event.name }}
-          </ng-container>
-        </ng-container>
+
       </mat-card-title>
 
     </mat-card-header>
 
-    <img src="https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2024/02/google-maps-e1707316052388.png" >
+    <img src="https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2024/02/google-maps-e1707316052388.png" alt="mapa"/>
 
     <mat-card-content>
       <p>
         <strong>Data:</strong>
-        {{ (event$ | async)?.date }}
+        {{ event.date }}
       </p>
 
       <p>
         <strong>Horário:</strong>
-        {{ (event$ | async)?.time }}
+        {{ event.time }}
       </p>
 
       <p>
-        <mat-icon aria-hidden="false" fontIcon="location_on"></mat-icon>
         <strong> Local:</strong>
-        {{ (event$ | async)?.local }}
+        {{ event.local }}
       </p>
 
       <!-- Descrição opcional -->
-      <p *ngIf="(event$ | async)?.description">
-        <strong>Descrição:</strong> {{ (event$ | async)?.description }}
+      <p>
+        <strong>Descrição:</strong> {{ event.description }}
       </p>
     </mat-card-content>
 
@@ -46,7 +43,13 @@
       <button mat-flat-button color="secondary">
         Cancelar Presença
       </button>
+      <button mat-flat-button color="secondary" (click)="onDelete(event)">
+        Deletar
+      </button>
     </mat-card-actions>
+
+      </ng-container>
+    </ng-container>
   </mat-card>
 
   <!-- Templates auxiliares -->
@@ -58,3 +61,4 @@
     <p>Evento não encontrado.</p>
   </ng-template>
 </div>
+

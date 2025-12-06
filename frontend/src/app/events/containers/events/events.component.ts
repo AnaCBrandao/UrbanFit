@@ -54,3 +54,4 @@ export class EventsComponent implements OnInit {
     this.router.navigate(['eventInfo', event.id], {relativeTo: this.route})
   }
 }
+

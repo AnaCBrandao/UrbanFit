@@ -29,7 +29,7 @@ export class AppComponent {
   }
 
   goMap() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/events/new']);
     document.querySelector('.map-icon')?.classList.add('active');
     document.querySelector('.home-icon')?.classList.remove('active');
   }
