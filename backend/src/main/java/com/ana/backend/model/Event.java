@@ -1,7 +1,10 @@
 package com.ana.backend.model;
 
+import org.hibernate.validator.constraints.Length;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -16,10 +19,27 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;             
 
+    @NotBlank
+    @NotNull 
+    @Length(min=5, max=200)
+    @Column(length = 200, nullable = false)
     private String name;
+
     private String description;
+
+    @NotBlank
+    @NotNull 
+    @Column(nullable = false)
     private String local;
+
+    @NotBlank
+    @NotNull 
+    @Column(nullable = false)
     private String date;
+
+    @NotBlank
+    @NotNull 
+    @Column(nullable = false)
     private String time;
 
 
