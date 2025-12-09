@@ -9,6 +9,8 @@ import { EventsService } from '../../services/events.service';
 import { AppMaterialModule } from '../../../shared/app-material/app-material.module';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Event } from '../../model/event';
+import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-event-info',
@@ -19,12 +21,13 @@ import { Event } from '../../model/event';
 })
 export class EventInfoComponent {
 
-event$!: Observable<Event | null>;
+  event$!: Observable<Event | null>;
 
   constructor(private route: ActivatedRoute,
     private eventsService: EventsService,
     private snackBar: MatSnackBar,
-    private location: Location
+    private location: Location,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -43,12 +46,17 @@ event$!: Observable<Event | null>;
   }
 
   onDelete(event: Event) {
-    this.eventsService.delete(event.id).subscribe(() => {
-      this.snackBar.open("Evento deletado com sucesso", 'X', {duration: 5000, verticalPosition: 'top', horizontalPosition: 'center'})
-      this.location.back()
-    },
-    error =>  this.snackBar.open("Erro ao deletar evento", '', {duration: 5000})
-   );
-  }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Tem certeza que deseja remover esse evento?',
+    });
 
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.eventsService.delete(event.id).subscribe(() => {
+          this.snackBar.open("Evento deletado com sucesso", 'X', {duration: 5000, verticalPosition: 'top', horizontalPosition: 'center'})
+          this.location.back()
+        }, error =>  this.snackBar.open("Erro ao deletar evento", '', {duration: 5000}))
+      };
+    })
+  }
 }

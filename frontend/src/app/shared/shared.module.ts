@@ -8,6 +8,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -27,10 +28,12 @@ export const MY_DATE_FORMATS = {
     AppMaterialModule,
     MatDatepickerModule,
     MatInputModule,
-    ErrorDialogComponent 
+    ErrorDialogComponent,
+    ConfirmationDialogComponent
   ],
   exports: [
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    ConfirmationDialogComponent
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },

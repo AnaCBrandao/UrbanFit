@@ -1,25 +1,26 @@
-// 1) @forward sempre antes de qualquer regra
+
 @forward '../styles/theme-vars';
 
-// 2) @use do material e definições (pode vir depois dos forwards)
 @use '@angular/material' as mat;
 @use 'sass:color';
 @use 'sass:map';
 
-// 3) definições reais (podem sobrescrever defaults do _theme-vars)
+
 $custom-app-primary: mat.define-palette(mat.$indigo-palette, A700);
 $custom-app-secondary: mat.define-palette(mat.$light-green-palette, A200);
 $custom-app-surface: #fffdf1;
+$custom-app-red:  mat.define-palette(mat.$red-palette, 700);
 
 $custom-theme: mat.define-light-theme((
   color: (
     primary: $custom-app-primary,
     accent: $custom-app-secondary,
     surface: $custom-app-surface,
+    red-color: $custom-app-red,
   )
 ));
 
 @include mat.core();
 @include mat.all-component-themes($custom-theme);
 
-// Opcional: se quiser forwardar também funções do material, faça outro @forward no topo (antes de regras)
+
