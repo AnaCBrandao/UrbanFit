@@ -1,0 +1,16 @@
+.profile-container{
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+}
+
+app-profile-form {
+  width: 40%;
+}
+
+mat-card {
+  height: 100%;
+}
+
