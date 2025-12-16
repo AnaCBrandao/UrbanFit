@@ -1,0 +1,23 @@
+
+.image img{
+  max-width: 700px;
+  border-radius: 1em;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin: 0px 200px;
+  align-items: center;
+  height: 100%;
+}
+
+p {
+  font-size: large;
+}
+
+.actions {
+  display: flex;
+  gap: 20px;
+}

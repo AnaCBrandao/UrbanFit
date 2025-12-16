@@ -1,0 +1,66 @@
+@use '../styles/theme' as theme;
+@use '@angular/material' as mat;
+
+.header {
+  background-color: theme.$custom-app-surface;
+  font-size: 40px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+span {
+  color: mat.get-color-from-palette(theme.$custom-app-primary, 'default');
+  margin-left: 8px;
+}
+
+mat-icon {
+  font-size: 38px;
+  width: 38px;
+  height: 38px;
+  margin-left: 8px;
+}
+
+.nav-icons {
+  margin-left: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+}
+
+.active {
+  color: mat.get-color-from-palette(theme.$custom-app-primary, 'default');
+}
+
+input {
+  border: 2px solid rgb(138, 137, 137);
+  padding: 10px;
+}
+
+.search {
+  width: 40%;
+}
+
+.search img {
+  width: 50px;
+  border-radius: 3em;
+}
+
+.search, .search-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+}
+
+.search-input {
+  margin-right: 20px;
+}
+
+mat-icon:hover {
+  color: mat.get-color-from-palette(theme.$custom-app-primary, 'default');
+}
+
+

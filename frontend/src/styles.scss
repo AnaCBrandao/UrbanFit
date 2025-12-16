@@ -1,0 +1,15 @@
+@use '../src/styles/theme' as theme;
+@use '@angular/material' as mat;
+
+body {
+  background: theme.$custom-app-surface;
+  height: 80%;
+}
+
+html {
+  height: 100%;
+}
+
+
+
+
