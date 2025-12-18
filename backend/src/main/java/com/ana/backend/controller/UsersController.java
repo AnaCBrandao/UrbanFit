@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 
-import com.ana.backend.model.User;
-import com.ana.backend.repository.UserRepository;
+import com.ana.backend.model.Users;
+import com.ana.backend.repository.UsersRepository;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -24,32 +24,32 @@ import jakarta.validation.constraints.Positive;
 @RestController
 @RequestMapping("/api/users")
 @AllArgsConstructor
-public class UserController {
-    private final UserRepository userRepository;
+public class UsersController {
+    private final UsersRepository usersRepository;
 
     @GetMapping
-    public List<User> list() {
-        return userRepository.findAll();
+    public List<Users> list() {
+        return usersRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable @NotNull @Positive Long id) {
-        return userRepository.findById(id)
+    public ResponseEntity<Users> findById(@PathVariable @NotNull @Positive Long id) {
+        return usersRepository.findById(id)
         .map(record -> ResponseEntity.ok().body(record))
         .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody @Valid User record) {
+    public ResponseEntity<Users> create(@RequestBody @Valid Users record) {
         //return eventRepository.save(record);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userRepository.save(record));
+        return ResponseEntity.status(HttpStatus.CREATED).body(usersRepository.save(record));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id){
-        return userRepository.findById(id)
+        return usersRepository.findById(id)
         .map(record -> {
-            userRepository.deleteById(id);
+            usersRepository.deleteById(id);
             return ResponseEntity.noContent().<Void>build();
         })
         .orElse(ResponseEntity.notFound().build());

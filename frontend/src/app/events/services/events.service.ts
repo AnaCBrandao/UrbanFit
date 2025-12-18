@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Event } from '../model/event';
-import { delay, first, map, tap } from 'rxjs/operators';
+import { delay, first, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import moment from 'moment';
