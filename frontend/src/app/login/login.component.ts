@@ -18,13 +18,11 @@ export class LoginComponent {
 
   public openLoginDialog(){
     const dialogRef = this.dialog.open(LoginDialogComponent, {
-
     });
   }
 
   public openRegisterDialog(){
     const dialogRef = this.dialog.open(RegisterDialogComponent, {
-
     });
   }
 }

@@ -43,4 +43,24 @@ public class Users {
         this.idade = idade;
         this.senha = senha;
     }
+
+    public String getNome() {
+        return this.name;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public String getSenha() {
+        return this.senha;
+    }
+
+    public String getIdade() {
+        return this.idade;
+    }
 }

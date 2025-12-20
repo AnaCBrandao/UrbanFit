@@ -1,16 +1,17 @@
 <h2 mat-dialog-title>Entre com sua conta</h2>
 <mat-dialog-content>
-  <div class="login-form">
+  <form class="login-form" [formGroup]="form">
     <mat-form-field>
       <mat-label>Email</mat-label>
-      <input matInput type="email" />
+      <input matInput type="email" formControlName="email"/>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Senha</mat-label>
-      <input matInput type="password" />
+      <input matInput type="password" formControlName="senha"/>
     </mat-form-field>
-  </div>
+    <div *ngIf="error" style="color:#c0392b">{{error}}</div>
+  </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-raised-button cdkFocusInitial color="accent">Entrar</button>
+  <button mat-raised-button cdkFocusInitial color="accent" (click)="submit()" >Entrar</button>
 </mat-dialog-actions>
