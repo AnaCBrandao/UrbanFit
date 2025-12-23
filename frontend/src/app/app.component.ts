@@ -23,7 +23,7 @@ export class AppComponent {
   constructor(private router: Router) {}
 
   goHome() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/events']);
     document.querySelector('.home-icon')?.classList.add('active');
     document.querySelector('.map-icon')?.classList.remove('active');
   }

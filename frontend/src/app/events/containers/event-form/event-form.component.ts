@@ -25,7 +25,7 @@ export class EventFormComponent implements OnInit, OnDestroy  {
   marker!: mapboxgl.Marker;
   map!:mapboxgl.Map;
   lat = -21.7944;
-  lng = -48.1756;
+  lng =-48.1756;
   zoom = 12;
 
 
@@ -33,6 +33,8 @@ export class EventFormComponent implements OnInit, OnDestroy  {
       name: ['',[Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
       description: [''],
       local: ['', [Validators.required]],
+      lng: [-48.1756,[Validators.required]],
+      lat: [-21.7944, [Validators.required]],
       date: ['', [Validators.required]],
       time: ['', [Validators.required]],
     });
@@ -159,10 +161,10 @@ private async reverseGeocodeAndFillLocal(lat: number, lng: number): Promise<void
     }
   }
 
-
-
   //acoes do formulario
   onSubmit() {
+    this.form.value.lat = this.marker.getLngLat().lat;
+    this.form.value.lng = this.marker.getLngLat().lng;
     this.service.save(this.form.value).subscribe(data => this.onSuccess(), error => this.onError())
   }
 

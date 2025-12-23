@@ -2,6 +2,8 @@
 <div class="container">
 
   <mat-card class="card" appearance="outlined">
+
+    <div #mapEl class="map"></div>
     <ng-container *ngIf="event$ | async as event; else loading">
       <ng-container *ngIf="event; else notFound">
        <mat-card-header>
@@ -11,8 +13,6 @@
       </mat-card-title>
 
     </mat-card-header>
-
-    <img src="https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2024/02/google-maps-e1707316052388.png" alt="mapa"/>
 
     <mat-card-content>
       <p>
@@ -30,6 +30,11 @@
         {{ event.local }}
       </p>
 
+      <p>
+        <strong> Participantes:</strong>
+        {{ event.attendees?.length ?? 0 }}
+      </p>
+
       <!-- Descrição opcional -->
       <p>
         <strong>Descrição:</strong> {{ event.description }}
@@ -37,10 +42,10 @@
     </mat-card-content>
 
     <mat-card-actions>
-      <button mat-flat-button color="accent">
+      <button mat-flat-button color="accent" (click)="onAttend(event)">
         Eu Vou!
       </button>
-      <button mat-flat-button color="primary">
+      <button mat-flat-button color="primary" (click)="onUnAttend(event)">
         Cancelar Presença
       </button>
       <button mat-flat-button color="warn" (click)="onDelete(event)">

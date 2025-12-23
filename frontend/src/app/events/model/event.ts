@@ -3,7 +3,9 @@ export interface Event {
   name: string;
   description: string;
   local: string;
+  latitude: number;
+  longitude: number;
   date: string;
   time: string;
-  id_creator: number;
+  attendees?: number[];
 }

@@ -4,6 +4,7 @@
   flex-direction: row;
   gap: 20px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 app-profile-form {
@@ -13,4 +14,6 @@ app-profile-form {
 mat-card {
   height: 100%;
 }
+
+
 

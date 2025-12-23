@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 
 import { DatePipe, AsyncPipe, NgIf, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
 
@@ -12,6 +12,10 @@ import { Event } from '../../model/event';
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
+import { environment } from '../../../../enviroments/enviroment';
+import * as mapboxgl from 'mapbox-gl';
+import { AuthService } from '../../../login/services/auth.service';
+
 @Component({
   selector: 'app-event-info',
   standalone: true,
@@ -19,30 +23,92 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './event-info.component.html',
   styleUrl: './event-info.component.scss'
 })
-export class EventInfoComponent {
+export class EventInfoComponent implements AfterViewInit{
+  @ViewChild('mapEl') mapEl?: ElementRef<HTMLDivElement>;
 
   event$!: Observable<Event | null>;
+  marker!: mapboxgl.Marker;
+  map!:mapboxgl.Map;
+  lat = -21.7944;
+  lng = -48.1756;
+  zoom = 15;
 
   constructor(private route: ActivatedRoute,
     private eventsService: EventsService,
     private snackBar: MatSnackBar,
     private location: Location,
     public dialog: MatDialog,
+    public auth: AuthService,
   ) {}
 
-  ngOnInit(): void {
+
+ngAfterViewInit(): void {
+    // 1) Cria o mapa quando a view existe
+    this.initMap();
+
+    // 2) Carrega o evento e posiciona no endereço do evento
     this.event$ = this.route.paramMap.pipe(
       switchMap(params => {
-        const idParam = params.get('id');
-        const id = idParam ? Number(idParam) : NaN;
-
-        if (Number.isNaN(id)) {
-          return of(null);
-        }
-
+        const id = Number(params.get('id'));
+        if (Number.isNaN(id)) throw new Error('ID inválido');
         return this.eventsService.getEventById(id);
+      }),
+      tap(async event => {
+        // >>> use SEMPRE as coords do evento <<<
+        const lat = Number(event.latitude);
+        const lng = Number(event.longitude);
+
+        // se houver coords válidas, atualize; senão, mantenha fallback
+        if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
+          this.updateMarkerAndFly(lng, lat);
+          console.log('foi')
+        } else {
+          console.log(lng, lat)
+          // (opcional) tentar geocodificar texto do address
+           await this.forwardGeocodeAndUpdate(event.local);
+        }
       })
     );
+  }
+
+
+private async forwardGeocodeAndUpdate(address: string): Promise<void> {
+    if (!address || !address.trim()) return;
+
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json` +
+                `?access_token=${environment.mapboxToken}&country=BR&language=pt&limit=1`;
+    const resp = await fetch(url);
+    if (!resp.ok) return;
+    const json = await resp.json();
+
+    const feature = json.features?.[0];
+    if (!feature) return;
+
+    const [lng, lat] = feature.center;
+    this.updateMarkerAndFly(lng, lat);
+  }
+
+
+  private initMap(): void {
+    if (!this.mapEl?.nativeElement) return;
+
+    this.map = new mapboxgl.Map({
+      container: this.mapEl.nativeElement,
+      style: 'mapbox://styles/mapbox/light-v10',
+      center: [this.lng, this.lat],
+      zoom: this.zoom,
+      accessToken: environment.mapboxToken
+    });
+
+    this.marker = new mapboxgl.Marker({ color: 'red', draggable: false })
+      .setLngLat([this.lng, this.lat])
+      .addTo(this.map);
+  }
+
+  private updateMarkerAndFly(lng: number, lat: number): void {
+    if (!this.marker || !this.map) return;
+    this.marker.setLngLat([lng, lat]);
+    this.map.flyTo({ center: [lng, lat], zoom: 15 });
   }
 
   onDelete(event: Event) {
@@ -59,4 +125,47 @@ export class EventInfoComponent {
       };
     })
   }
+
+
+onAttend(event: Event) {
+  const userId = this.auth.currentUser?.id;
+  if (!userId) {
+    this.snackBar.open('Você precisa estar logada(o).', 'Fechar', { duration: 3000 });
+    return;
+  }
+
+  // 1) UI otimista: adiciona o id localmente (evita duplicados)
+  const before = event.attendees ?? [];
+  event.attendees = Array.from(new Set([...before, userId]));
+
+  // 2) Chama backend para persistir
+  this.eventsService.attend(event.id).subscribe({
+    next: (updated) => {
+      // 3) Sincroniza com o retorno do backend (se ele devolver o evento)
+      event.attendees = updated.attendees ?? event.attendees;
+
+      this.snackBar.open('Presença confirmada!', 'X', {
+        duration: 3000, verticalPosition: 'top', horizontalPosition: 'center'
+      });
+    },
+    error: (err) => {
+      // 4) Reverte UI se der erro
+      event.attendees = before;
+
+      this.snackBar.open('Erro ao se inscrever', 'X', {
+        duration: 5000, verticalPosition: 'top', horizontalPosition: 'center'
+      });
+      console.error('attend error:', err);
+    }
+  });
+}
+
+
+  onUnAttend(event: Event) {
+    this.eventsService.unattend(event.id).subscribe(() => {
+          this.snackBar.open("Presença cancelada", 'X', {duration: 5000, verticalPosition: 'top', horizontalPosition: 'center'})
+    }, error =>  this.snackBar.open("Erro ao cancelar presença", '', {duration: 5000}))
+  }
+
+
 }

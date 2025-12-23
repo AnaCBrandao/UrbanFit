@@ -9,6 +9,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-events',
@@ -24,7 +25,8 @@ export class EventsComponent implements OnInit {
     private eventsService: EventsService,
     public dialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
   ) {
     this.eventsService
       .listEvents()
@@ -49,9 +51,10 @@ export class EventsComponent implements OnInit {
     this.router.navigate(['new'], {relativeTo: this.route})
   }
 
-  onSubscribe(event: Event) {
-    console.log(event)
-    this.router.navigate(['eventInfo', event.id], {relativeTo: this.route})
+  onAttend(event: Event) {
+    this.eventsService.attend(event.id).subscribe(() => {
+          this.snackBar.open("Presença confirmada!", 'X', {duration: 5000, verticalPosition: 'top', horizontalPosition: 'center'})
+    }, error =>  this.snackBar.open("Erro ao se inscrever", '', {duration: 5000}))
   }
 }
 

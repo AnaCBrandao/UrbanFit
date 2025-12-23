@@ -42,5 +42,15 @@ export class EventsService {
   delete(id: number) {
     return this.httpClient.delete(`${this.API}/${id}`).pipe(first())
   }
+
+
+  attend(id: number): Observable<Event> {
+    return this.httpClient.put<Event>(`${this.API}/${id}/attend`, {});
+  }
+
+  unattend(id: number): Observable<Event> {
+    return this.httpClient.put<Event>(`${this.API}/${id}/unattend`, {});
+  }
+
 }
 

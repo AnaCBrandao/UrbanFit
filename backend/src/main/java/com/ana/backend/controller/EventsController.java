@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,12 +73,51 @@ public class EventsController {
         }
 
      
-    return eventRepository.findById(id)
+        return eventRepository.findById(id)
         .map(ev -> {
             eventRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         })
         .orElse(ResponseEntity.notFound().build());
+    }
+
+    
+    @PutMapping("/{id}/attend")
+    public ResponseEntity<Event> attend(@PathVariable Long id, HttpSession session) {
+        var userId = session.getAttribute("USER_ID");
+        if (userId == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        return eventRepository.findById(id)
+            .map(ev -> {
+                List<Long> list = ev.getAttendees();
+                if (list == null) list = new ArrayList<>();
+                Long uid = (userId instanceof Integer) ? Long.valueOf((Integer) userId) : (Long) userId;
+
+                if (!list.contains(uid)) list.add(uid);
+                ev.setAttendees(list);
+
+                return ResponseEntity.ok(eventRepository.save(ev));
+            })
+            .orElse(ResponseEntity.notFound().build());
+    }
+
+    
+    @PutMapping("/{id}/unattend")
+    public ResponseEntity<Event> unattend(@PathVariable Long id, HttpSession session) {
+        var userId = session.getAttribute("USER_ID");
+        if (userId == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        return eventRepository.findById(id)
+            .map(ev -> {
+                Long uid = (userId instanceof Integer) ? Long.valueOf((Integer) userId) : (Long) userId;
+                List<Long> list = ev.getAttendees();
+                if (list != null) {
+                    list.remove(uid);
+                    ev.setAttendees(list);
+                }
+                return ResponseEntity.ok(eventRepository.save(ev));
+            })
+            .orElse(ResponseEntity.notFound().build());
     }
 
 }

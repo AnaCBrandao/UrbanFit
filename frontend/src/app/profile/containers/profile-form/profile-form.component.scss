@@ -6,6 +6,7 @@ form {
 
 mat-card {
   padding: 20px;
+  width: 100%;
 }
 
 mat-card-actions, mat-card-header {
@@ -16,6 +17,14 @@ mat-card-actions, mat-card-header {
 }
 
 
+.logout {
+  width: 400px;
+  height: 50px;
+  margin-top: 20px;
+}
 
-
-
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
