@@ -22,8 +22,8 @@ public class BackendApplication {
 		return args -> {
 			eventRepository.deleteAll();
 			usersRepository.deleteAll();
-			eventRepository.save(new Event("Yoga Class", "A relaxing yoga session", "Rua Laura C. Camargo 59, Araraquara - São Paulo, 14810-145, Brasil", -21.782729, -48.177136, "20/2/2024", "10:00 AM"));
-			usersRepository.save(new Users("Ana Brandao", "ana@gmail.com", "22", "123"));
+			eventRepository.save(new Event("Yoga Class", "A relaxing yoga session", "Rua Laura C. Camargo 59, Araraquara - São Paulo, 14810-145, Brasil", -21.782729, -48.177136, "20/2/2024", "10:00"));
+			usersRepository.save(new Users("Ana Brandao", "ana@gmail.com", 22, "123"));
 		};
 	}
 }

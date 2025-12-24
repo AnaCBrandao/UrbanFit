@@ -21,8 +21,8 @@ export class RegisterDialogComponent {
   form = this.formBuilder.group({
     name: ['',[Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
     email: ['', [Validators.required]],
-    idade: [''],
-    senha: ['', [Validators.required]],
+    age: [undefined as number | undefined],
+    password: ['', [Validators.required]],
   });
 
   constructor(private service: UserService,

@@ -30,21 +30,24 @@ public class Users {
     @Column(length = 500, nullable = false)
     private String email;
 
-    private String idade;
+    
+    @Column(nullable = true)
+    private Integer age;
+
 
     @NotBlank
     @NotNull 
     @Column(nullable = false)
-    private String senha;
+    private String password;
 
-    public Users(String name, String email, String idade, String senha) {
+    public Users(String name, String email, Integer age, String password) {
         this.name = name;
         this.email = email;
-        this.idade = idade;
-        this.senha = senha;
+        this.age = age;
+        this.password = password;
     }
 
-    public String getNome() {
+    public String getName() {
         return this.name;
     }
 
@@ -56,11 +59,11 @@ public class Users {
         return this.id;
     }
 
-    public String getSenha() {
-        return this.senha;
+    public String getPassword() {
+        return this.password;
     }
 
-    public String getIdade() {
-        return this.idade;
+    public Integer getAge() {
+        return this.age;
     }
 }

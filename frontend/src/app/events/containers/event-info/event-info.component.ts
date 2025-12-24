@@ -42,11 +42,9 @@ export class EventInfoComponent implements AfterViewInit{
   ) {}
 
 
-ngAfterViewInit(): void {
-    // 1) Cria o mapa quando a view existe
+  ngAfterViewInit(): void {
     this.initMap();
 
-    // 2) Carrega o evento e posiciona no endereço do evento
     this.event$ = this.route.paramMap.pipe(
       switchMap(params => {
         const id = Number(params.get('id'));
@@ -54,25 +52,21 @@ ngAfterViewInit(): void {
         return this.eventsService.getEventById(id);
       }),
       tap(async event => {
-        // >>> use SEMPRE as coords do evento <<<
         const lat = Number(event.latitude);
         const lng = Number(event.longitude);
 
-        // se houver coords válidas, atualize; senão, mantenha fallback
         if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
           this.updateMarkerAndFly(lng, lat);
           console.log('foi')
         } else {
           console.log(lng, lat)
-          // (opcional) tentar geocodificar texto do address
            await this.forwardGeocodeAndUpdate(event.local);
         }
       })
     );
   }
 
-
-private async forwardGeocodeAndUpdate(address: string): Promise<void> {
+  private async forwardGeocodeAndUpdate(address: string): Promise<void> {
     if (!address || !address.trim()) return;
 
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json` +
@@ -126,46 +120,38 @@ private async forwardGeocodeAndUpdate(address: string): Promise<void> {
     })
   }
 
-
-onAttend(event: Event) {
-  const userId = this.auth.currentUser?.id;
-  if (!userId) {
-    this.snackBar.open('Você precisa estar logada(o).', 'Fechar', { duration: 3000 });
-    return;
-  }
-
-  // 1) UI otimista: adiciona o id localmente (evita duplicados)
-  const before = event.attendees ?? [];
-  event.attendees = Array.from(new Set([...before, userId]));
-
-  // 2) Chama backend para persistir
-  this.eventsService.attend(event.id).subscribe({
-    next: (updated) => {
-      // 3) Sincroniza com o retorno do backend (se ele devolver o evento)
-      event.attendees = updated.attendees ?? event.attendees;
-
-      this.snackBar.open('Presença confirmada!', 'X', {
-        duration: 3000, verticalPosition: 'top', horizontalPosition: 'center'
-      });
-    },
-    error: (err) => {
-      // 4) Reverte UI se der erro
-      event.attendees = before;
-
-      this.snackBar.open('Erro ao se inscrever', 'X', {
-        duration: 5000, verticalPosition: 'top', horizontalPosition: 'center'
-      });
-      console.error('attend error:', err);
+  onAttend(event: Event) {
+    const userId = this.auth.currentUser?.id;
+    if (!userId) {
+      this.snackBar.open('Você precisa estar logada(o).', 'Fechar', { duration: 3000 });
+      return;
     }
-  });
-}
 
+    const before = event.attendees ?? [];
+    event.attendees = Array.from(new Set([...before, userId]));
+
+    this.eventsService.attend(event.id).subscribe({
+      next: (updated) => {
+        event.attendees = updated.attendees ?? event.attendees;
+
+        this.snackBar.open('Presença confirmada!', 'X', {
+          duration: 3000, verticalPosition: 'top', horizontalPosition: 'center'
+        });
+      },
+      error: (err) => {
+        event.attendees = before;
+
+        this.snackBar.open('Erro ao se inscrever', 'X', {
+          duration: 5000, verticalPosition: 'top', horizontalPosition: 'center'
+        });
+        console.error('attend error:', err);
+      }
+    });
+  }
 
   onUnAttend(event: Event) {
     this.eventsService.unattend(event.id).subscribe(() => {
           this.snackBar.open("Presença cancelada", 'X', {duration: 5000, verticalPosition: 'top', horizontalPosition: 'center'})
     }, error =>  this.snackBar.open("Erro ao cancelar presença", '', {duration: 5000}))
   }
-
-
 }

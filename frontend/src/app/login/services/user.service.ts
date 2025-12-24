@@ -35,4 +35,10 @@ export class UserService {
     delete(id: number) {
       return this.httpClient.delete(`${this.API}/${id}`).pipe(first())
     }
+
+
+    updateProfile(payload: Partial<User>): Observable<User> {
+      return this.httpClient.put<User>('/api/profile', payload);
+    }
+
 }

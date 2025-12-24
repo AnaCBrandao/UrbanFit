@@ -41,7 +41,6 @@ public class UsersController {
 
     @PostMapping
     public ResponseEntity<Users> create(@RequestBody @Valid Users record) {
-        //return eventRepository.save(record);
         return ResponseEntity.status(HttpStatus.CREATED).body(usersRepository.save(record));
     }
 

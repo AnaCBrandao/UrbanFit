@@ -25,7 +25,7 @@ export class LoginDialogComponent {
 
   form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
     loading = false; error?: string;
 
@@ -33,8 +33,8 @@ export class LoginDialogComponent {
 
     submit() {
       this.loading = true;
-      const { email, senha } = this.form.value;
-      this.auth.login(email!, senha!).subscribe({
+      const { email, password } = this.form.value;
+      this.auth.login(email!, password!).subscribe({
         next: () => { this.loading = false; this.router.navigate(['/events']); this.dialogRef.close();},
         error: (err) => {
           this.loading = false;
