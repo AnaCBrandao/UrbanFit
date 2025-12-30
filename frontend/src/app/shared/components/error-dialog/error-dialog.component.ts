@@ -12,6 +12,5 @@ import { MatButtonModule } from '@angular/material/button';
 export class ErrorDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: string) { }
 
-    ngOnInit(): void {
-    }
+  ngOnInit(): void {}
 }

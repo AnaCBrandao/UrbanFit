@@ -28,16 +28,15 @@ export class EventFormComponent implements OnInit, OnDestroy  {
   lng =-48.1756;
   zoom = 12;
 
-
   form = this.formBuilder.group({
-      name: ['',[Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
-      description: [''],
-      local: ['', [Validators.required]],
-      lng: [-48.1756,[Validators.required]],
-      lat: [-21.7944, [Validators.required]],
-      date: ['', [Validators.required]],
-      time: ['', [Validators.required]],
-    });
+    name: ['',[Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
+    description: [''],
+    local: ['', [Validators.required]],
+    lng: [-48.1756,[Validators.required]],
+    lat: [-21.7944, [Validators.required]],
+    date: ['', [Validators.required]],
+    time: ['', [Validators.required]],
+  });
 
   get localCtrl(): FormControl {
     return this.form.get('local') as FormControl;
@@ -55,12 +54,10 @@ export class EventFormComponent implements OnInit, OnDestroy  {
     this.listenLocalField();
   }
 
-
   ngOnDestroy(): void {
     this.map?.remove();
   }
 
-  //lógica do mapa
   buildMap(){
 
     this.map = new mapboxgl.Map({
@@ -75,44 +72,36 @@ export class EventFormComponent implements OnInit, OnDestroy  {
       .setLngLat([this.lng, this.lat])
       .addTo(this.map);
 
-    // const onDragEnd = () => {
-    //   const lngLat = this.marker.getLngLat();
-    //   this.lng = lngLat.lng;
-    //   this.lat = lngLat.lat;
-    // };
-    // this.marker.on('dragend', onDragEnd);
+    this.marker.on('dragend', async () => {
+      const { lng, lat } = this.marker.getLngLat();
+      this.lng = lng;
+      this.lat = lat;
+      await this.reverseGeocodeAndFillLocal(lat, lng); // opcional
+    });
 
+    const geocoder = new MapboxGeocoder({
+      accessToken: (mapboxgl as any).accessToken,
+      mapboxgl: mapboxgl,
+      marker: false,
+      placeholder: 'Digite um endereço',
+      countries: 'br',
+      language: 'pt',
+      limit: 5
+    });
 
-  this.marker.on('dragend', async () => {
-    const { lng, lat } = this.marker.getLngLat();
-    this.lng = lng;
-    this.lat = lat;
-    await this.reverseGeocodeAndFillLocal(lat, lng); // opcional
-  });
+    this.map.addControl(geocoder);
 
-  const geocoder = new MapboxGeocoder({
-    accessToken: (mapboxgl as any).accessToken,
-    mapboxgl: mapboxgl,
-    marker: false,
-    placeholder: 'Digite um endereço',
-    countries: 'br',
-    language: 'pt',
-    limit: 5
-  });
+    geocoder.on('result', (e: any) => {
+      const [lng, lat] = e.result.center;
+      this.marker.setLngLat([lng, lat]);
+      this.map.flyTo({ center: [lng, lat], zoom: 15 });
 
-  this.map.addControl(geocoder);
-
-  geocoder.on('result', (e: any) => {
-    const [lng, lat] = e.result.center;
-    this.marker.setLngLat([lng, lat]);
-    this.map.flyTo({ center: [lng, lat], zoom: 15 });
-
-    const place = e.result.place_name ?? '';
-    this.localCtrl.setValue(place, { emitEvent: false });
-    this.lng = lng;
-    this.lat = lat;
-  });
-}
+      const place = e.result.place_name ?? '';
+      this.localCtrl.setValue(place, { emitEvent: false });
+      this.lng = lng;
+      this.lat = lat;
+    });
+  }
 
   private listenLocalField(): void {
     this.localCtrl.valueChanges.pipe(
@@ -128,8 +117,7 @@ export class EventFormComponent implements OnInit, OnDestroy  {
     });
   }
 
-
-private async forwardGeocode(address: string): Promise<void> {
+  private async forwardGeocode(address: string): Promise<void> {
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json` +
                 `?access_token=${environment.mapboxToken}&country=BR&language=pt&limit=1`;
 
@@ -144,10 +132,10 @@ private async forwardGeocode(address: string): Promise<void> {
     this.map.flyTo({ center: [lng, lat], zoom: 15 });
     this.lng = lng;
     this.lat = lat;
-}
+  }
 
 
-private async reverseGeocodeAndFillLocal(lat: number, lng: number): Promise<void> {
+  private async reverseGeocodeAndFillLocal(lat: number, lng: number): Promise<void> {
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json` +
                 `?access_token=${environment.mapboxToken}&types=address&country=BR&language=pt&limit=1`;
 
@@ -161,7 +149,6 @@ private async reverseGeocodeAndFillLocal(lat: number, lng: number): Promise<void
     }
   }
 
-  //acoes do formulario
   onSubmit() {
     this.form.value.lat = this.marker.getLngLat().lat;
     this.form.value.lng = this.marker.getLngLat().lng;
@@ -172,7 +159,6 @@ private async reverseGeocodeAndFillLocal(lat: number, lng: number): Promise<void
     this.location.back()
   }
 
-  //mensagens e erros
   private onSuccess() {
     this.snackBar.open("Evento salvo com sucesso", '', {duration: 5000})
     this.location.back()

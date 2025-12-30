@@ -4,9 +4,10 @@ import { AppMaterialModule } from '../../../shared/app-material/app-material.mod
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UserService } from '../../../login/services/user.service';
 import { SharedModule } from '../../shared.module';
+import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-register-dialog',
@@ -45,5 +46,12 @@ export class RegisterDialogComponent {
 
   private onError() {
     this.snackBar.open("Erro ao salvar dados", '', {duration: 5000})
+  }
+
+  readonly dialog = inject(MatDialog);
+
+  public openLoginDialog(){
+    this.dialogRef.close();
+    this.dialog.open(LoginDialogComponent, {});
   }
 }

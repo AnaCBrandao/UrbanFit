@@ -61,7 +61,6 @@ public class Event {
         this.time = time;
     }
 
-    
     @ElementCollection
     @CollectionTable(
         name = "event_attendees",

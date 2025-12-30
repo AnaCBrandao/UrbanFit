@@ -5,7 +5,6 @@ import { LoginDialogComponent } from '../shared/components/login-dialog/login-di
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterDialogComponent } from '../shared/components/register-dialog/register-dialog.component';
 
-
 @Component({
   selector: 'app-login',
   standalone: true,

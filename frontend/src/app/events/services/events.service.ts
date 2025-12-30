@@ -34,7 +34,6 @@ export class EventsService {
     return this.httpClient.post<Event>(this.API, record).pipe(first())
   }
 
-
   getEventById(id: number): Observable<Event> {
     return this.httpClient.get<Event>(`${this.API}/${id}`);
   }
@@ -43,7 +42,6 @@ export class EventsService {
     return this.httpClient.delete(`${this.API}/${id}`).pipe(first())
   }
 
-
   attend(id: number): Observable<Event> {
     return this.httpClient.put<Event>(`${this.API}/${id}/attend`, {});
   }
@@ -51,7 +49,6 @@ export class EventsService {
   unattend(id: number): Observable<Event> {
     return this.httpClient.put<Event>(`${this.API}/${id}/unattend`, {});
   }
-
 
   listMyEvents(): Observable<Event[]> {
     return this.httpClient.get<Event[]>(`${this.API}/mine`).pipe(first());

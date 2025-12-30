@@ -1,4 +1,3 @@
-
 package com.ana.backend.auth;
 
 import jakarta.validation.constraints.Email;

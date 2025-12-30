@@ -51,7 +51,6 @@ public class EventsController {
             .orElse(ResponseEntity.notFound().build());
     }
 
-
     @PostMapping
     public ResponseEntity<Event> create(@RequestBody @Valid Event record, HttpSession session) {
         var userIdOpt = getUserId(session);
@@ -81,7 +80,6 @@ public class EventsController {
         .orElse(ResponseEntity.notFound().build());
     }
 
-    
     @PutMapping("/{id}/attend")
     public ResponseEntity<Event> attend(@PathVariable Long id, HttpSession session) {
         var userId = session.getAttribute("USER_ID");
@@ -101,7 +99,6 @@ public class EventsController {
             .orElse(ResponseEntity.notFound().build());
     }
 
-    
     @PutMapping("/{id}/unattend")
     public ResponseEntity<Event> unattend(@PathVariable Long id, HttpSession session) {
         var userId = session.getAttribute("USER_ID");
@@ -136,5 +133,4 @@ public class EventsController {
 
         return ResponseEntity.ok(mine);
     }
-
 }

@@ -10,35 +10,34 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-   private readonly API = 'api/users';
+  private readonly API = 'api/users';
 
-    constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-    listUsers() {
-      return this.httpClient.get<User[]>(this.API)
-      .pipe(
-        first(),
-        delay(2000),
-        tap(users => console.log(users))
-      )
-    }
+  listUsers() {
+    return this.httpClient.get<User[]>(this.API)
+    .pipe(
+      first(),
+      delay(2000),
+      tap(users => console.log(users))
+    )
+  }
 
-    save(record: Partial<User>) {
-      console.log(record)
-      return this.httpClient.post<User>(this.API, record).pipe(first())
-    }
+  save(record: Partial<User>) {
+    console.log(record)
+    return this.httpClient.post<User>(this.API, record).pipe(first())
+  }
 
-    getUserById(id: number): Observable<User> {
-      return this.httpClient.get<User>(`${this.API}/${id}`);
-    }
+  getUserById(id: number): Observable<User> {
+    return this.httpClient.get<User>(`${this.API}/${id}`);
+  }
 
-    delete(id: number) {
-      return this.httpClient.delete(`${this.API}/${id}`).pipe(first())
-    }
+  delete(id: number) {
+    return this.httpClient.delete(`${this.API}/${id}`).pipe(first())
+  }
 
-
-    updateProfile(payload: Partial<User>): Observable<User> {
-      return this.httpClient.put<User>('/api/profile', payload);
-    }
+  updateProfile(payload: Partial<User>): Observable<User> {
+    return this.httpClient.put<User>('/api/profile', payload);
+  }
 
 }

@@ -4,7 +4,6 @@ import { AppMaterialModule } from '../app/shared/app-material/app-material.modul
 import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,

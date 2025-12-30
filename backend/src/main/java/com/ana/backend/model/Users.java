@@ -30,10 +30,8 @@ public class Users {
     @Column(length = 500, nullable = false)
     private String email;
 
-    
     @Column(nullable = true)
     private Integer age;
-
 
     @NotBlank
     @NotNull 

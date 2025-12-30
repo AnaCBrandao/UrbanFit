@@ -82,7 +82,6 @@ export class EventInfoComponent implements AfterViewInit{
     this.updateMarkerAndFly(lng, lat);
   }
 
-
   private initMap(): void {
     if (!this.mapEl?.nativeElement) return;
 
@@ -149,9 +148,41 @@ export class EventInfoComponent implements AfterViewInit{
     });
   }
 
-  onUnAttend(event: Event) {
-    this.eventsService.unattend(event.id).subscribe(() => {
-          this.snackBar.open("Presença cancelada", 'X', {duration: 5000, verticalPosition: 'top', horizontalPosition: 'center'})
-    }, error =>  this.snackBar.open("Erro ao cancelar presença", '', {duration: 5000}))
+  // onUnAttend(event: Event) {
+  //   this.eventsService.unattend(event.id).subscribe(() => {
+  //         this.snackBar.open("Presença cancelada", 'X', {duration: 5000, verticalPosition: 'top', horizontalPosition: 'center'})
+  //   }, error =>  this.snackBar.open("Erro ao cancelar presença", '', {duration: 5000}))
+  // }
+
+
+onUnAttend(event: Event) {
+  const userId = this.auth.currentUser?.id;
+  if (!userId) {
+    this.snackBar.open('Você precisa estar logada(o).', 'Fechar', { duration: 3000 });
+    return;
   }
+
+  const before = [...(event.attendees ?? [])];
+
+  event.attendees = (event.attendees ?? []).filter(uid => uid !== userId);
+
+  this.eventsService.unattend(event.id).subscribe({
+    next: (updated) => {
+      if (updated?.attendees) {
+        event.attendees = updated.attendees;
+      }
+      this.snackBar.open('Presença cancelada!', 'X', {
+        duration: 3000, verticalPosition: 'top', horizontalPosition: 'center'
+      });
+    },
+    error: (err) => {
+      event.attendees = before;
+      this.snackBar.open('Erro ao cancelar presença', 'Fechar', {
+        duration: 5000, verticalPosition: 'top', horizontalPosition: 'center'
+      });
+      console.error('unattend error:', err);
+    }
+  });
+}
+
 }

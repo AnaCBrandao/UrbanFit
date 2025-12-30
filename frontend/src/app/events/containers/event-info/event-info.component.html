@@ -1,63 +1,57 @@
-
 <div class="container">
 
   <mat-card class="card" appearance="outlined">
 
     <div #mapEl class="map"></div>
+
     <ng-container *ngIf="event$ | async as event; else loading">
       <ng-container *ngIf="event; else notFound">
-       <mat-card-header>
-        <mat-card-title>
+        <mat-card-header>
+          <mat-card-title>
             {{ event.name }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            <strong>Data:</strong>
+            {{ event.date }}
+          </p>
 
-      </mat-card-title>
+          <p>
+            <strong>Horário:</strong>
+            {{ event.time }}
+          </p>
 
-    </mat-card-header>
+          <p>
+            <strong> Local:</strong>
+            {{ event.local }}
+          </p>
 
-    <mat-card-content>
-      <p>
-        <strong>Data:</strong>
-        {{ event.date }}
-      </p>
+          <p>
+            <strong> Participantes:</strong>
+            {{ event.attendees?.length ?? 0 }}
+          </p>
 
-      <p>
-        <strong>Horário:</strong>
-        {{ event.time }}
-      </p>
-
-      <p>
-        <strong> Local:</strong>
-        {{ event.local }}
-      </p>
-
-      <p>
-        <strong> Participantes:</strong>
-        {{ event.attendees?.length ?? 0 }}
-      </p>
-
-      <!-- Descrição opcional -->
-      <p>
-        <strong>Descrição:</strong> {{ event.description }}
-      </p>
-    </mat-card-content>
-
-    <mat-card-actions>
-      <button mat-flat-button color="accent" (click)="onAttend(event)">
-        Eu Vou!
-      </button>
-      <button mat-flat-button color="primary" (click)="onUnAttend(event)">
-        Cancelar Presença
-      </button>
-      <button mat-flat-button color="warn" (click)="onDelete(event)">
-        Deletar
-      </button>
-    </mat-card-actions>
-
+          <p>
+            <strong>Descrição:</strong> {{ event.description }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="accent" (click)="onAttend(event)">
+            Eu Vou!
+          </button>
+          <button mat-flat-button color="primary" (click)="onUnAttend(event)">
+            Cancelar Presença
+          </button>
+          <button mat-flat-button color="warn" (click)="onDelete(event)">
+            Deletar
+          </button>
+        </mat-card-actions>
       </ng-container>
     </ng-container>
+
   </mat-card>
 
-  <!-- Templates auxiliares -->
   <ng-template #loading>
     <mat-spinner></mat-spinner>
   </ng-template>

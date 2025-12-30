@@ -1,4 +1,5 @@
 <h2 mat-dialog-title>CADASTRE-SE</h2>
+
 <mat-dialog-content>
   <form class="registration-form" action="" [formGroup]="form">
     <mat-form-field>
@@ -23,7 +24,8 @@
     </mat-form-field>
   </form>
 </mat-dialog-content>
+
 <mat-dialog-actions>
   <button mat-raised-button cdkFocusInitial color="accent" (click)="onRegister()">Criar conta</button>
-  <a href="">Já tenho um cadastro</a>
+  <a (click)="openLoginDialog()">Já tenho um cadastro</a>
 </mat-dialog-actions>

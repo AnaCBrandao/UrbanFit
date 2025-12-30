@@ -12,9 +12,5 @@ import { AppMaterialModule } from '../../../shared/app-material/app-material.mod
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent {
-
-constructor() {}
-
-
-
+  constructor() {}
 }
