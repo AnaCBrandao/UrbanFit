@@ -1,86 +1,38 @@
-<div class="container">
-  <mat-card class="calendar-card" appearance="outlined">
-  <table>
-      <thead>
-        <tr>
-          <th>SEG</th>
-          <th>TER</th>
-          <th>QUA</th>
-          <th>QUI</th>
-          <th>SEX</th>
-          <th>SAB</th>
-          <th>DOM</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td data-dia="seg"></td>
-          <td data-dia="ter"></td>
-          <td data-dia="qua">
-            <div class="evento" style="--cor:#2563eb;" aria-label="Daily do time, 09:00–09:30">
-              <span class="evento-titulo">Corrida no Parque</span>
-            </div>
-          </td>
-          <td data-dia="qui"></td>
-          <td data-dia="sex"></td>
-          <td data-dia="sab"></td>
-          <td data-dia="dom"></td>
-        </tr>
 
-        <tr>
-          <td data-dia="seg"></td>
-          <td data-dia="ter"></td>
-          <td data-dia="qua"></td>
-          <td data-dia="qui"></td>
-          <td data-dia="sex"></td>
-          <td data-dia="sab"></td>
-          <td data-dia="dom"></td>
-        </tr>
+<div class="agenda">
+  <h2 class="agenda__title">SUA AGENDA</h2>
 
-        <tr>
-          <td data-dia="seg"></td>
-          <td data-dia="ter"></td>
-          <td data-dia="qua"></td>
-          <td data-dia="qui">
-            <div class="evento" style="--cor:#ef4444;" aria-label="Consulta médica, 11:00–12:00">
-              <span class="evento-titulo">Aula de yoga</span>
-            </div>
-          </td>
-          <td data-dia="sex"></td>
-          <td data-dia="sab"></td>
-          <td data-dia="dom"></td>
-        </tr>
+  <ng-container *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </ng-container>
 
-        <tr>
-          <td data-dia="seg"></td>
-          <td data-dia="ter"></td>
-          <td data-dia="qua"></td>
-          <td data-dia="qui"></td>
-          <td data-dia="sex">
-            <div class="evento" style="--cor:#f59e0b;" aria-label="Almoço com cliente, 12:30–13:30">
-              <span class="evento-titulo">Basquete na quadra</span>
-            </div>
-          </td>
-          <td data-dia="sab"></td>
-          <td data-dia="dom"></td>
-        </tr>
+  <p class="agenda__error" *ngIf="!loading && error">{{ error }}</p>
 
-        <tr>
-          <td data-dia="seg"></td>
-          <td data-dia="ter"></td>
-          <td data-dia="qua">
-            <div class="evento" style="--cor:#0ea5e9;" aria-label="Revisão Sprint, 15:00–16:00">
-              <span class="evento-titulo">Evento 1</span>
-            </div>
-          </td>
-          <td data-dia="qui"></td>
-          <td data-dia="sex"></td>
-          <td data-dia="sab"></td>
-          <td data-dia="dom"></td>
-        </tr>
+  <div class="agenda__list" *ngIf="!loading && !error && myEvents.length > 0; else emptyTpl">
+    <mat-card class="agenda__item" *ngFor="let e of myEvents">
+      <div class="agenda__item-row">
+        <div class="agenda__item-info">
+          <div class="agenda__item-name">{{ e.name }}</div>
+          <div class="agenda__item-meta">
+            <span *ngIf="e.date || e.time">{{ e.date }} <span *ngIf="e.time">• {{ e.time }}</span></span>
+            <span *ngIf="e.local">• {{ e.local }}</span>
+          </div>
+        </div>
 
-      </tbody>
-    </table>
-  </mat-card>
+        <div class="agenda__item-actions">
+          <!-- Link para detalhes -->
+          <a mat-stroked-button color="primary" (click)="goEvent(e.id)">
+            Acessar
+          </a>
+        </div>
+      </div>
+    </mat-card>
+  </div>
 
+  <ng-template #emptyTpl>
+    <div class="agenda__empty">
+      Você ainda não está inscrita em nenhum evento.
+    </div>
+  </ng-template>
 </div>
+

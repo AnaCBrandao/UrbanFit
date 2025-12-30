@@ -52,5 +52,10 @@ export class EventsService {
     return this.httpClient.put<Event>(`${this.API}/${id}/unattend`, {});
   }
 
+
+  listMyEvents(): Observable<Event[]> {
+    return this.httpClient.get<Event[]>(`${this.API}/mine`).pipe(first());
+  }
+
 }
 

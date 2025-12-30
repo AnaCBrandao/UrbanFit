@@ -120,4 +120,21 @@ public class EventsController {
             .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/mine")
+    public ResponseEntity<List<Event>> listMine(HttpSession session) {
+        var userIdOpt = getUserId(session);
+        if (userIdOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        Long uid = userIdOpt.get();
+
+        List<Event> mine = eventRepository.findAll()
+            .stream()
+            .filter(ev -> ev.getAttendees() != null && ev.getAttendees().contains(uid))
+            .collect(java.util.stream.Collectors.toList());
+
+        return ResponseEntity.ok(mine);
+    }
+
 }

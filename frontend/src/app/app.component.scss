@@ -39,26 +39,6 @@ input {
   padding: 10px;
 }
 
-.search {
-  width: 40%;
-}
-
-.search img {
-  width: 50px;
-  border-radius: 3em;
-}
-
-.search, .search-input {
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
-  align-items: center;
-}
-
-.search-input {
-  margin-right: 20px;
-}
-
 mat-icon:hover {
   color: mat.get-color-from-palette(theme.$custom-app-primary, 'default');
 }

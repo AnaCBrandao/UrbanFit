@@ -4,14 +4,7 @@
       <mat-icon aria-hidden="false" fontIcon="home" (click)="goHome()" class="home-icon active"></mat-icon>
       <mat-icon aria-hidden="false" fontIcon="map" (click)="goMap()" class="map-icon"></mat-icon>
     </div>
-
-  <div class="search">
-      <div class="search-input">
-        <input type="text">
-        <mat-icon aria-hidden="false" aria-label="search" fontIcon="search" (click)="search()"></mat-icon>
-      </div>
-    <img src="https://i.pinimg.com/736x/03/ac/c0/03acc030c6700dfd274d1ef20e70609b.jpg" alt="" (click)="goProfile()">
-  </div>
+    <mat-icon aria-hidden="false" fontIcon="account_circle" (click)="goProfile()" class="map-icon"></mat-icon>
 
 </mat-toolbar>
 <router-outlet></router-outlet>
